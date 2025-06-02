@@ -1,0 +1,8 @@
+tienda/Registro.class
+tienda/Logout.class
+tienda/ProcesarPedido.class
+tienda/Producto.class
+tienda/Usuario.class
+tienda/Login.class
+tienda/ProductoBD.class
+tienda/AccesoBD.class
