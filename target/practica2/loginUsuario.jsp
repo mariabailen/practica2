@@ -26,11 +26,11 @@
                     String nombreUsuario = (String) session.getAttribute("usuario");
                     if (nombreUsuario != null) {
                 %>
-                    <li class="nav-item"><a class="nav-link disabled text-white" href="#">Hola, <%= nombreUsuario %></a></li>
+                    <li class="nav-item"><a class="nav-link disabled text-white" href="#">Hola, <% =nombreUsuario %></a></li>
                 <%
                     } else {
                 %>
-                    <li class="nav-item"><a class="nav-link active" href="loginUsuario.jsp">Usuario</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="loginUsuario.jsp">Login</a></li>
                 <%
                     }
                 %>

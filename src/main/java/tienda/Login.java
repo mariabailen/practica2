@@ -21,6 +21,7 @@ public class Login extends HttpServlet {
             if (codigo > 0) {
                 session.setAttribute("codigo", codigo);
                 session.setAttribute("usuario", usuario); 
+                
 
                 // Si no se ha especificado URL, vamos a productos.jsp por defecto
                 if (urlDestino == null || urlDestino.isEmpty()) {
