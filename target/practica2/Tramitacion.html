@@ -1,0 +1,104 @@
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" import="tienda.*" %>
+<%
+    String usuario = (String) session.getAttribute("usuario");
+    if (usuario == null) {
+        response.sendRedirect("loginUsuario.jsp?url=finalizar_compra.jsp");
+        return;
+    }
+    AccesoBD db = AccesoBD.getInstance();
+    Usuario datosUsuario = db.obtenerDatosUsuario(usuario);
+%>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Finalizar Compra</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="./css/bootstrap.min.css" integrity="sha384-9aIt2nRpC6IzVButxZRooFJgHxcFjBQmWWL5Q8PTCyk6iVP+2YH1l96W+LOI/PFG" crossorigin="anonymous">
+  <script src="./js/bootstrap.bundle.min.js" integrity="sha384-9aIt2nRpC6IzVButxZRooFJgHxcFjBQmWWL5Q8PTCyk6iVP+2YH1l96W+LOI/PFG" crossorigin="anonymous"></script>
+</head>
+<body onload="cargarResumenCompra()">
+
+  <header class="bg-primary text-white p-4 text-center">
+    <menu-web></menu-web>
+  </header>
+
+  <main class="container mt-4">
+    <h2 class="text-center mb-4">Finalizar Compra</h2>
+
+    <!-- FORMULARIO AÑADIDO -->
+    <form action="tramitacion.html" method="post" id="formFinalizarCompra">
+      <!-- Campo oculto: usuario -->
+      <input type="hidden" name="codigoUsuario" value="<%= datosUsuario != null ? datosUsuario.getCodigo() : "" %>">
+      <!-- Campo oculto: importe total -->
+      <input type="hidden" name="importeTotal" id="importeTotalHidden" value="">
+
+      <div class="d-flex justify-content-between flex-wrap">
+        <div class="formulario" style="flex: 1; min-width: 300px; margin-right: 20px;">
+          <h3>Dirección de envío</h3>
+          <label>Nombre:</label>
+          <input type="text" placeholder="Tu nombre" value="<%= datosUsuario != null ? datosUsuario.getNombre() : "" %>" readonly>
+
+          <label>Domicilio:</label>
+          <input type="text" placeholder="Dirección completa" value="<%= datosUsuario != null ? datosUsuario.getDomicilio() : "" %>" readonly>
+
+          <label>Código Postal:</label>
+          <input type="text" placeholder="00000" value="<%= datosUsuario != null ? datosUsuario.getCp() : "" %>" readonly>
+
+          <label>Población:</label>
+          <input type="text" placeholder="Ciudad" value="<%= datosUsuario != null ? datosUsuario.getPoblacion() : "" %>" readonly>
+
+          <label>Provincia:</label>
+          <input type="text" placeholder="Provincia" value="<%= datosUsuario != null ? datosUsuario.getProvincia() : "" %>" readonly>
+
+          <label>Teléfono:</label>
+          <input type="text" placeholder="Teléfono" value="<%= datosUsuario != null ? datosUsuario.getTelefono() : "" %>" readonly>
+
+          <h3>Método de pago</h3>
+          <div>
+            <input type="radio" name="pago" id="tarjeta" checked>
+            <label for="tarjeta">Tarjeta de crédito</label><br>
+            <input type="radio" name="pago" id="transferencia">
+            <label for="transferencia">Transferencia bancaria</label><br>
+            <input type="radio" name="pago" id="bizum">
+            <label for="bizum">Bizum</label><br>
+            <input type="radio" name="pago" id="contra">
+            <label for="contra">Contrareembolso</label>
+          </div>
+        </div>
+
+        <div class="ticket" style="flex: 1; min-width: 300px;">
+          <h3>Resumen del pedido</h3>
+          <table>
+            <thead>
+              <tr><th>Producto</th><th>Cantidad</th><th>Precio</th></tr>
+            </thead>
+            <tbody id="resumenBody">
+              <!-- Se rellena con JS -->
+            </tbody>
+          </table>
+          <p class="text-right mt-2"><strong>Total: <span id="totalCompra">0.00 €</span></strong></p>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <button type="button" onclick="confirmarCompra()" class="btn btn-success">Finalizar Compra</button>
+        <button type="button" onclick="window.location.href='carrito.jsp'" class="btn btn-secondary">Cancelar Compra</button>
+      </div>
+    </form>
+    <!-- FIN FORMULARIO -->
+  </main>
+
+  <footer class="bg-dark text-white text-center py-3 mt-4">
+    <pie-pagina-web></pie-pagina-web>
+  </footer>
+
+  <script src="js/style.js"></script>
+  <script src="js/scripts.js"></script>
+  <script src="js/carrito.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.6.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+</body>
+</html>

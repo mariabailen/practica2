@@ -59,16 +59,16 @@
                 Integer codigo = (Integer) session.getAttribute("codigo");
                 if (codigo == null || codigo <= 0) {
             %>
-            <form method="post" action="login.html" class="shadow p-4 rounded bg-light">
+            <form method="post" action="Login" class="shadow p-4 rounded bg-light">
                 <input type="hidden" name="url" value="<%= request.getParameter("url") != null ? request.getParameter("url") : "productos.jsp" %>">
 
                 <div class="mb-3">
-                    <label for="usuario" class="form-label">Usuario</label>
+                    <label form="usuario" class="form-label">Usuario</label>
                     <input name="usuario" type="text" class="form-control" placeholder="Introduce tu nombre de usuario" required>
                 </div>
 
                 <div class="mb-3">
-                    <label for="clave" class="form-label">Contraseña</label>
+                    <label form="clave" class="form-label">Contraseña</label>
                     <input name="clave" type="password" class="form-control" placeholder="Introduce tu contraseña" required>
                 </div>
 

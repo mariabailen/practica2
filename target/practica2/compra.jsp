@@ -1,17 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" import="java.util.List,tienda.*" pageEncoding="UTF-8"%>
-<%
-    Usuario usuario = (Usuario) request.getAttribute("usuario");
-    List<Producto> carrito = (List<Producto>) session.getAttribute("carrito");
 
-    if (usuario == null) {
-        response.sendRedirect("loginUsuario.jsp");
-        return;
-    }
-    if (carrito == null || carrito.isEmpty()) {
-        out.println("<p>El carrito está vacío. <a href='productos.jsp'>Volver a productos</a></p>");
-        return;
-    }
-%>
 <!DOCTYPE html>
 <html lang="es">
 <head>

@@ -11,7 +11,7 @@
         // Redirigir después de 3 segundos a la página principal
         setTimeout(function() {
             window.location.href = "loginUsuario.jsp";  //
-        }, 3000);  // 3 segundos
+        }, 3000);  
     </script>
 </head>
 <body>
