@@ -1,4 +1,5 @@
 <%@page language="java" contentType="text/html;charset=UTF-8" import="tienda.*" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -15,6 +16,14 @@
     </script>
 </head>
 <body>
+
+    <%
+
+    if (session != null) {
+        session.removeAttribute("codigo");
+        session.removeAttribute("usuario");
+    }
+%>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="index.html">MAKE UP WAPA</a>

@@ -59,7 +59,7 @@
                 Integer codigo = (Integer) session.getAttribute("codigo");
                 if (codigo == null || codigo <= 0) {
             %>
-            <form method="post" action="Login" class="shadow p-4 rounded bg-light">
+            <form method="post" action="login" class="shadow p-4 rounded bg-light">
                 <input type="hidden" name="url" value="<%= request.getParameter("url") != null ? request.getParameter("url") : "productos.jsp" %>">
 
                 <div class="mb-3">
