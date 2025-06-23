@@ -22,11 +22,12 @@
                 <li class="nav-item"><a class="nav-link" href="productos.jsp">Productos</a></li>
                 <li class="nav-item"><a class="nav-link" href="carrito.jsp">Carrito</a></li>
                 <li class="nav-item"><a class="nav-link" href="administracion.html">Administración</a></li>
+                <li class="nav-item"><a class="nav-link" href="logout.jsp">Cerrar Sesión</a></li> 
                 <%
                     String nombreUsuario = (String) session.getAttribute("usuario");
                     if (nombreUsuario != null) {
                 %>
-                    <li class="nav-item"><a class="nav-link disabled text-white" href="#">Hola, <% =nombreUsuario %></a></li>
+                    <li class="nav-item"><a class="nav-link disabled text-white" href="#">Hola, <%=nombreUsuario %></a></li>
                 <%
                     } else {
                 %>
@@ -34,7 +35,6 @@
                 <%
                     }
                 %>
-                <li class="nav-item"><a class="nav-link" href="logout.jsp">Cerrar Sesión</a></li> 
             </ul>
         </div>
     </div>
