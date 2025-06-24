@@ -57,7 +57,6 @@
                 for (ProductoBD producto : productos) {
                     int codigo = producto.getCodigo();
                     String descripcion = producto.getDescripcion();
-                    int cantidad = 0;
                     float precio = producto.getPrecio();
                     int existencias = producto.getExistencias();
                     String imagen = producto.getImagen();
@@ -69,7 +68,13 @@
                         <h5 class="card-title"><%= descripcion %></h5>
                         <p class="card-text">Precio: <strong><%= precio %> €</strong></p>
                         <p class="card-text">Stock: <%= existencias %></p>
-                        <button class="btn btn-primary" onclick="anadirCarrito('<%= codigo %>', '<%= descripcion %>', '<%= imagen %>', '<%= precio %>', '<%= existencias %>')">Añadir al carrito</button>
+
+                        <% if (existencias > 0) { %>
+                            <button class="btn btn-primary" onclick="anadirCarrito('<%= codigo %>', '<%= descripcion %>', '<%= imagen %>', '<%= precio %>', '<%= existencias %>')">Añadir al carrito</button>
+                        <% } else { %>
+                            <button class="btn btn-secondary" disabled>Sin stock</button>
+                        <% } %>
+
                     </div>
                 </div>
             </div>
