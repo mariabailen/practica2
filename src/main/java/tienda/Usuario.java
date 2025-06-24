@@ -2,6 +2,7 @@ package tienda;
 
 public class Usuario {
 
+    private int codigo; 
     private String nombre;
     private String domicilio;
     private String cp;
@@ -9,6 +10,16 @@ public class Usuario {
     private String provincia;
     private String telefono;
 
+    // Getter y Setter para 'codigo'
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
+    // Getters y setters existentes
     public String getNombre() {
         return nombre;
     }

@@ -155,4 +155,28 @@ public boolean insertarUsuario(String nombre, String apellidos, String domicilio
     }
     return exito;
 }
+public Usuario obtenerDatosUsuario(String usuario) {
+    Usuario u = null;
+    try {
+        String sql = "SELECT * FROM usuarios WHERE usuario = ?";
+        PreparedStatement ps = conexionBD.prepareStatement(sql);
+        ps.setString(1, usuario);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            u = new Usuario();
+            u.setCodigo(rs.getInt("codigo")); 
+            u.setNombre(rs.getString("nombre"));
+            u.setDomicilio(rs.getString("domicilio"));
+            u.setCp(rs.getString("cp"));
+            u.setPoblacion(rs.getString("poblacion"));
+            u.setProvincia(rs.getString("provincia"));
+			u.setTelefono(rs.getString("telefono"));
+        }
+        rs.close();
+        ps.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return u;
+}
 }
