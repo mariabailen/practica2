@@ -20,7 +20,7 @@ function guardarCarrito() {
 }
 
 // Función para añadir un producto al carrito
-function anadirCarrito(codigo, descripcion, imagen, precio, existencias) {
+function anadirCarrito(codigo, descripcion, imagen, cantidad, precio, existencias) {
     let producto = carrito.find(p => p.codigo === codigo);
 
     if (producto) {
@@ -31,7 +31,7 @@ function anadirCarrito(codigo, descripcion, imagen, precio, existencias) {
             return;
         }
     } else {
-        carrito.push(new ProductoCarrito(codigo, descripcion, imagen, 1, precio, existencias));
+        carrito.push(new ProductoCarrito(codigo, descripcion, imagen, cantidad, precio, existencias));
     }
 
     guardarCarrito();
@@ -44,6 +44,7 @@ function eliminarProducto(index) {
     guardarCarrito();
     mostrarCarrito();
 }
+window.eliminarProducto = eliminarProducto;
 
 // Función para vaciar el carrito
 function vaciarCarrito() {
@@ -51,18 +52,43 @@ function vaciarCarrito() {
     guardarCarrito();
     mostrarCarrito();
 }
+window.vaciarCarrito = vaciarCarrito;
+
+// Función para incrementar la cantidad de un producto
+function incrementarCantidad(index) {
+    if (carrito[index].cantidad < carrito[index].existencias) {
+        carrito[index].cantidad++;
+        guardarCarrito();
+        mostrarCarrito();
+    } else {
+        alert("No hay más stock disponible de este producto.");
+    }
+}
+window.incrementarCantidad = incrementarCantidad;
+
+// Función para disminuir la cantidad de un producto
+function disminuirCantidad(index) {
+    carrito[index].cantidad--;
+    if (carrito[index].cantidad <= 0) {
+        carrito.splice(index, 1);
+    }
+    guardarCarrito();
+    mostrarCarrito();
+}
+window.disminuirCantidad = disminuirCantidad;
 
 // Función para mostrar el carrito en la página
 function mostrarCarrito() {
+    console.log("Mostrando carrito con", carrito.length, "productos");
+
     let tabla = document.getElementById("carritoBody");
-    
-    // Depuración: Verifica si el elemento carritoBody existe
+
     if (!tabla) {
         console.error("El elemento con id 'carritoBody' no se encontró.");
         return;
     }
 
-    tabla.innerHTML = ""; // Limpiar tabla antes de llenarla
+    tabla.innerHTML = ""; // Limpiar tabla
 
     if (carrito.length === 0) {
         tabla.innerHTML = "<tr><td colspan='6' class='text-center'>El carrito está vacío.</td></tr>";
@@ -79,7 +105,11 @@ function mostrarCarrito() {
                 <td>${producto.descripcion}</td>
                 <td>${parseFloat(producto.precio).toFixed(2)} €</td>
                 <td><img src="img/${producto.imagen}" alt="${producto.descripcion}" style="width: 80px;"></td>
-                <td>${producto.cantidad}</td>
+                <td>
+                    <button class="btn btn-sm btn-outline-secondary me-1" onclick="disminuirCantidad(${index})">&minus</button>
+                    ${producto.cantidad}
+                    <button class="btn btn-sm btn-outline-secondary ms-1" onclick="incrementarCantidad(${index})">&plus;</button>
+                </td>
                 <td>${total.toFixed(2)} €</td>
                 <td>
                     <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${index})">Eliminar</button>
@@ -118,6 +148,7 @@ function EnviarCarrito(urlServlet) {
     document.body.appendChild(form);
     form.submit();
 }
+window.EnviarCarrito = EnviarCarrito;
 
-// Asegurarse de que el DOM esté completamente cargado antes de ejecutar la función mostrarCarrito
+// Mostrar carrito al cargar página
 document.addEventListener('DOMContentLoaded', mostrarCarrito);
