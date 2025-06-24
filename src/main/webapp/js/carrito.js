@@ -20,7 +20,7 @@ function guardarCarrito() {
 }
 
 // Función para añadir un producto al carrito
-function anadirCarrito(codigo, descripcion, imagen, cantidad, precio, existencias) {
+function anadirCarrito(codigo, descripcion, imagen, precio, existencias) {
     let producto = carrito.find(p => p.codigo === codigo);
 
     if (producto) {
@@ -31,7 +31,7 @@ function anadirCarrito(codigo, descripcion, imagen, cantidad, precio, existencia
             return;
         }
     } else {
-        carrito.push(new ProductoCarrito(codigo, descripcion, imagen, cantidad, precio, existencias));
+        carrito.push(new ProductoCarrito(codigo, descripcion, imagen, 1, precio, existencias));
     }
 
     guardarCarrito();
@@ -57,7 +57,7 @@ window.vaciarCarrito = vaciarCarrito;
 // Función para incrementar la cantidad de un producto
 function incrementarCantidad(index) {
     if (carrito[index].cantidad < carrito[index].existencias) {
-        carrito[index].cantidad++;
+        carrito[index].cantidad = carrito[index].cantidad +1;
         guardarCarrito();
         mostrarCarrito();
     } else {
@@ -68,7 +68,7 @@ window.incrementarCantidad = incrementarCantidad;
 
 // Función para disminuir la cantidad de un producto
 function disminuirCantidad(index) {
-    carrito[index].cantidad--;
+    carrito[index].cantidad = carrito[index].cantidad -1;
     if (carrito[index].cantidad <= 0) {
         carrito.splice(index, 1);
     }
@@ -106,7 +106,7 @@ function mostrarCarrito() {
                 <td>${parseFloat(producto.precio).toFixed(2)} €</td>
                 <td><img src="img/${producto.imagen}" alt="${producto.descripcion}" style="width: 80px;"></td>
                 <td>
-                    <button class="btn btn-sm btn-outline-secondary me-1" onclick="disminuirCantidad(${index})">&minus</button>
+                    <button class="btn btn-sm btn-outline-secondary me-1" onclick="disminuirCantidad(${index})">&minus;</button>
                     ${producto.cantidad}
                     <button class="btn btn-sm btn-outline-secondary ms-1" onclick="incrementarCantidad(${index})">&plus;</button>
                 </td>
