@@ -150,5 +150,27 @@ function EnviarCarrito(urlServlet) {
 }
 window.EnviarCarrito = EnviarCarrito;
 
+function cargarResumenCompra() {
+    let carrito = JSON.parse(localStorage.getItem("mi-carrito-almacenado")) || [];
+    let resumenBody = document.getElementById("resumenBody");
+    let total = 0;
+    resumenBody.innerHTML = "";
+
+    carrito.forEach(producto => {
+        let subtotal = producto.precio * producto.cantidad;
+        total += subtotal;
+        resumenBody.innerHTML += `
+            <tr>
+                <td>${producto.descripcion}</td>
+                <td>${producto.cantidad}</td>
+                <td>${subtotal.toFixed(2)} €</td>
+            </tr>
+        `;
+    });
+
+    document.getElementById("totalCompra").textContent = total.toFixed(2) + " €";
+}
+
+
 // Mostrar carrito al cargar página
 document.addEventListener('DOMContentLoaded', mostrarCarrito);
