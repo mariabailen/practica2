@@ -179,4 +179,75 @@ public Usuario obtenerDatosUsuario(String usuario) {
     }
     return u;
 }
+
+public boolean guardarPedido(int codigoUsuario, ArrayList<Producto> carrito, int estado) {
+    boolean exito = false;
+    try {
+        abrirConexionBD();
+        conexionBD.setAutoCommit(false); // Inicio de transacción
+
+        // Calcular importe total
+        double importeTotal = 0;
+        for (Producto p : carrito) {
+            importeTotal += p.getPrecio() * p.getCantidad();
+        }
+
+        // Insertar pedido
+        String sqlPedido = "INSERT INTO pedidos (persona, importe, estado) VALUES (?, ?, ?)";
+        PreparedStatement psPedido = conexionBD.prepareStatement(sqlPedido, PreparedStatement.RETURN_GENERATED_KEYS);
+        psPedido.setInt(1, codigoUsuario);
+        psPedido.setDouble(2, importeTotal);
+        psPedido.setInt(3, estado);
+        int filas = psPedido.executeUpdate();
+
+        if (filas == 0) {
+            conexionBD.rollback();
+            return false;
+        }
+
+        // Obtener código del pedido generado
+        ResultSet rsKeys = psPedido.getGeneratedKeys();
+        int codigoPedido = -1;
+        if (rsKeys.next()) {
+            codigoPedido = rsKeys.getInt(1);
+        } else {
+            conexionBD.rollback();
+            return false;
+        }
+        rsKeys.close();
+        psPedido.close();
+
+        // Insertar detalles
+        String sqlDetalle = "INSERT INTO detalle (codigo_pedido, codigo_producto, unidades, precio_unitario) VALUES (?, ?, ?, ?)";
+        PreparedStatement psDetalle = conexionBD.prepareStatement(sqlDetalle);
+        for (Producto p : carrito) {
+            psDetalle.setInt(1, codigoPedido);
+            psDetalle.setInt(2, p.getCodigo());
+            psDetalle.setInt(3, p.getCantidad());
+            psDetalle.setDouble(4, p.getPrecio());
+            psDetalle.addBatch();
+        }
+        psDetalle.executeBatch();
+        psDetalle.close();
+
+        conexionBD.commit(); // Confirmar transacción
+        exito = true;
+    } catch (Exception e) {
+        try {
+            conexionBD.rollback();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        e.printStackTrace();
+        exito = false;
+    } finally {
+        try {
+            conexionBD.setAutoCommit(true);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    return exito;
+}
+
 }

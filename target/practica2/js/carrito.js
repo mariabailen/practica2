@@ -172,5 +172,6 @@ function cargarResumenCompra() {
 }
 
 
+
 // Mostrar carrito al cargar página
 document.addEventListener('DOMContentLoaded', mostrarCarrito);

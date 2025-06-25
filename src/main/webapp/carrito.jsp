@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" import="java.util.List,tienda.*" pageEncoding="UTF-8" %>
+               <%@ page language="java" contentType="text/html; charset=UTF-8" import="java.util.List,tienda.*" pageEncoding="UTF-8" %>
     <!DOCTYPE html>
     <html lang="es">
 
@@ -32,7 +32,7 @@
                             <% } else { %>
                                 <li class="nav-item"><a class="nav-link active" href="loginUsuario.jsp">Login</a></li>
                                 <% } %>
-                    </ul>
+                    </ul> 
                 </div>
             </div>
         </nav>
