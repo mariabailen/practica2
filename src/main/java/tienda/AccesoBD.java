@@ -249,5 +249,27 @@ public boolean guardarPedido(int codigoUsuario, ArrayList<Producto> carrito, int
     }
     return exito;
 }
+public boolean actualizarDatosUsuario(Usuario u) {
+    try {
+        String sql = "UPDATE usuarios "
+                   + "SET nombre = ?, domicilio = ?, cp = ?, poblacion = ?, provincia = ?, telefono = ? "
+                   + "WHERE codigo = ?";
+        PreparedStatement ps = conexionBD.prepareStatement(sql);
+        ps.setString(1, u.getNombre());
+        ps.setString(2, u.getDomicilio());
+        ps.setString(3, u.getCp());
+        ps.setString(4, u.getPoblacion());
+        ps.setString(5, u.getProvincia());
+        ps.setString(6, u.getTelefono());
+        ps.setInt(7, u.getCodigo());
+        int filas = ps.executeUpdate();
+        ps.close();
+        return filas > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
 
 }

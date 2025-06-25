@@ -48,6 +48,18 @@
     <servlet-name>ProcesarPedido</servlet-name>
     <url-pattern>/ProcesarPedido</url-pattern>
 </servlet-mapping>
+<!-- Servlet para perfil de usuario -->
+<servlet>
+  <servlet-name>Profile</servlet-name>
+  <servlet-class>tienda.ProfileServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+  <servlet-name>Profile</servlet-name>
+  <url-pattern>/perfil</url-pattern>
+</servlet-mapping>
+
+
+
 
 
 
