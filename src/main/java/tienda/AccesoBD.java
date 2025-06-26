@@ -1,4 +1,5 @@
 package tienda;
+import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -270,6 +271,86 @@ public boolean actualizarDatosUsuario(Usuario u) {
         return false;
     }
 }
+/**
+ * Devuelve la lista de pedidos realizados por un usuario.
+ */
+public List<Pedido> obtenerPedidosUsuario(int codigoUsuario) {
+    List<Pedido> lista = new ArrayList<>();
+    try {
+        String sql = "SELECT codigo, fecha, importe, estado FROM pedidos WHERE persona = ? ORDER BY fecha DESC";
+        PreparedStatement ps = conexionBD.prepareStatement(sql);
+        ps.setInt(1, codigoUsuario);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Pedido p = new Pedido();
+            p.setCodigo(rs.getInt("codigo"));
+            p.setFecha(rs.getTimestamp("fecha"));
+            p.setImporte(rs.getDouble("importe"));
+            p.setEstado(rs.getInt("estado"));
+            lista.add(p);
+        }
+        rs.close();
+        ps.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return lista;
+}
+public boolean cancelarPedido(int codigoPedido) {
+    abrirConexionBD();
+    boolean exito = false;
+    String sql = "UPDATE pedidos SET estado = 4 WHERE codigo = ? AND estado = 1";  // 4 = Cancelado, 1 = Pendiente
+
+    try (PreparedStatement ps = conexionBD.prepareStatement(sql)) {
+        ps.setInt(1, codigoPedido);
+        int filas = ps.executeUpdate();
+        exito = filas > 0;
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+    return exito;
+}
+public void insertarDetallePedido(int codigoPedido, int codigoProducto, int cantidad, float precioUnitario) {
+    String sql = "INSERT INTO detalle (codigo_pedido, codigo_producto, unidades, precio_unitario) VALUES (?, ?, ?, ?)";
+
+    try {
+        PreparedStatement pstmt = conexionBD.prepareStatement(sql);
+        pstmt.setInt(1, codigoPedido);
+        pstmt.setInt(2, codigoProducto);
+        pstmt.setInt(3, cantidad);
+        pstmt.setFloat(4, precioUnitario);
+    
+        pstmt.executeUpdate();
+        pstmt.close();
+    
+    } catch (SQLException e) {
+        System.err.println("Detalle insertado para pedido " + codigoPedido + ", producto " + codigoProducto);
+        e.printStackTrace();
+    }
+}
+public List<Detalle> obtenerDetallesPedido(int codigoPedido) {
+    List<Detalle> lista = new ArrayList<>();
+    String sql = "SELECT p.descripcion, d.precio_unitario, d.unidades FROM detalle d JOIN productos p ON d.codigo_producto = p.codigo WHERE d.codigo_pedido = " + codigoPedido;
+
+    try (Statement st = conexionBD.createStatement();
+         ResultSet rs = st.executeQuery(sql)) {
+
+        while (rs.next()) {
+            Detalle d = new Detalle(
+                rs.getString("descripcion"),
+                rs.getDouble("precio_unitario"),
+                rs.getInt("unidades")
+            );
+            lista.add(d);
+        }
+    } catch (SQLException e) {
+        System.err.println(sql);
+        e.printStackTrace();
+    }
+    return lista;
+}
+
+
 
 
 }

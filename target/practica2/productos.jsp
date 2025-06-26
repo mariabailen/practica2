@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" import="java.util.List,tienda.*" pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>

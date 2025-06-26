@@ -1,5 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
-<%@ page import="tienda.Usuario" %>
+<%@page language="java" contentType="text/html;charset=UTF-8" import="tienda.*" pageEncoding="UTF-8"%>
 <%
     Usuario user = (Usuario) request.getAttribute("usuarioDatos");
     String mensaje = (String) request.getAttribute("mensaje");
@@ -55,6 +54,7 @@
             <div class="d-flex justify-content-between">
                 <button type="submit" class="btn btn-primary">Guardar cambios</button>
                 <button type="button" class="btn btn-secondary" onclick="window.history.back()">Cancelar</button>
+                <a href="pedidos" class="btn btn-info">Ver pedidos</a>
             </div>
         </form>
     </div>

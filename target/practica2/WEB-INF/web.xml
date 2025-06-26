@@ -58,9 +58,15 @@
   <url-pattern>/perfil</url-pattern>
 </servlet-mapping>
 
+<servlet>
+    <servlet-name>CancelarPedido</servlet-name>
+    <servlet-class>tienda.CancelarPedido</servlet-class>
+</servlet>
 
-
-
+<servlet-mapping>
+    <servlet-name>CancelarPedido</servlet-name>
+    <url-pattern>/CancelarPedido</url-pattern>
+</servlet-mapping>
 
 
 </web-app>
