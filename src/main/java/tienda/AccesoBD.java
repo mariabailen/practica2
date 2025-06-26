@@ -1,10 +1,5 @@
 package tienda;
 import java.sql.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -348,6 +343,20 @@ public List<Detalle> obtenerDetallesPedido(int codigoPedido) {
         e.printStackTrace();
     }
     return lista;
+}
+public boolean actualizarClaveUsuario(String usuario, String nuevaClave) {
+    try {
+        String sql = "UPDATE usuarios SET clave = ? WHERE usuario = ?";
+        PreparedStatement ps = conexionBD.prepareStatement(sql);
+        ps.setString(1, nuevaClave);
+        ps.setString(2, usuario);
+        int filas = ps.executeUpdate();
+        ps.close();
+        return filas > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
 }
 
 

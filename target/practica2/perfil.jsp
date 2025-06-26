@@ -54,7 +54,25 @@
             <div class="d-flex justify-content-between">
                 <button type="submit" class="btn btn-primary">Guardar cambios</button>
                 <button type="button" class="btn btn-secondary" onclick="window.history.back()">Cancelar</button>
-                <a href="pedidos" class="btn btn-info">Ver pedidos</a>
+                <a href="${pageContext.request.contextPath}/pedidos" class="btn btn-info">Ver pedidos</a>
+            </div>
+        </form>
+        
+        <!-- Formulario de cambio de contraseña -->
+        <hr class="my-4" />
+        <h3>Cambiar Contraseña</h3>
+        <form action="ModificarClave" method="post" class="shadow p-4 rounded bg-light">
+            
+            <div class="mb-3">
+                <label class="form-label">Nueva contraseña</label>
+                <input type="password" name="nuevaClave" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Confirmar nueva contraseña</label>
+                <input type="password" name="confirmarClave" class="form-control" required>
+            </div>
+            <div class="d-flex justify-content-start">
+                <button type="submit" class="btn btn-warning">Cambiar contraseña</button>
             </div>
         </form>
     </div>
