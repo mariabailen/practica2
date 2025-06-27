@@ -178,6 +178,8 @@ public Usuario obtenerDatosUsuario(String usuario) {
 
 public boolean guardarPedido(int codigoUsuario, ArrayList<Producto> carrito, int estado) {
     boolean exito = false;
+    System.out.println("Entro guardar pedido");
+
     try {
         abrirConexionBD();
         conexionBD.setAutoCommit(false); // Inicio de transacción
@@ -231,18 +233,23 @@ public boolean guardarPedido(int codigoUsuario, ArrayList<Producto> carrito, int
     } catch (Exception e) {
         try {
             conexionBD.rollback();
+            System.out.println(e.getMessage());
         } catch (SQLException ex) {
             ex.printStackTrace();
+            System.out.println(e.getMessage());
         }
         e.printStackTrace();
+        System.out.println(e.getMessage());
         exito = false;
     } finally {
         try {
             conexionBD.setAutoCommit(true);
         } catch (SQLException ex) {
             ex.printStackTrace();
+            System.out.println(ex.getMessage());
         }
     }
+    System.out.println("Exito: " + exito);
     return exito;
 }
 public boolean actualizarDatosUsuario(Usuario u) {

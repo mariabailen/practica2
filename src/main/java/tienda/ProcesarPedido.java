@@ -1,6 +1,7 @@
 package tienda;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,77 +21,50 @@ public class ProcesarPedido extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                    System.out.println(">>> ProcesarPedido.doPost INVOKED <<<");
-
-        HttpSession sesion = request.getSession(true);
-        AccesoBD con = AccesoBD.getInstance();
-
-        // 1. Si viene JSON (actualización de carrito desde JS)
-        if ("application/json".equalsIgnoreCase(request.getContentType())) {
-            try (JsonReader jr = Json.createReader(request.getInputStream())) {
+        // Comprobar sesión de usuario
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("codigo") == null) {
+            response.sendRedirect("loginUsuario.jsp?url=compra.jsp");
+            return;
+        }
+        int codigoUsuario = (int) session.getAttribute("codigo");
+        // Leer el JSON del carrito desde form-data (campo oculto)
+        String carritoJSON = request.getParameter("carritoJSON");
+        List<Producto> carrito = new ArrayList<>();
+        if (carritoJSON != null && !carritoJSON.isBlank()) {
+            try (JsonReader jr = Json.createReader(new StringReader(carritoJSON))) {
                 JsonArray arr = jr.readArray();
-                ArrayList<Producto> carritoJSON = new ArrayList<>();
-
-                for (JsonValue v : arr) {
-                    JsonObject prod = (JsonObject) v;
+                for (JsonObject obj : arr.getValuesAs(JsonObject.class)) {
                     Producto p = new Producto();
-                    p.setCodigo(prod.getInt("codigo"));
-                    p.setDescripcion(prod.getString("descripcion"));
-                    p.setImagen(prod.getString("imagen"));
-                    p.setPrecio(Float.parseFloat(prod.get("precio").toString()));
-                    int cantidad = prod.getInt("cantidad");
-                    int exist = con.obtenerExistencias(p.getCodigo());
-                    if (cantidad > exist) cantidad = exist;
-                    if (cantidad > 0) {
-                        p.setCantidad(cantidad);
-                        carritoJSON.add(p);
-                    }
+                    p.setCodigo(Integer.parseInt(obj.getString("codigo")));
+                    p.setDescripcion(obj.getString("descripcion"));
+                    p.setPrecio(Float.parseFloat(obj.getString("precio")));
+                    p.setCantidad(obj.getInt("cantidad"));
+                    carrito.add(p);
                 }
-
-                if (!carritoJSON.isEmpty()) {
-                    sesion.setAttribute("carritoJSON", carritoJSON);
-                }
-                response.setStatus(HttpServletResponse.SC_OK);
-                return;
             } catch (Exception e) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "JSON mal formado");
+                e.printStackTrace();
+                session.setAttribute("mensaje", "Error procesando el carrito.");
+                response.sendRedirect("compra.jsp");
                 return;
             }
         }
-
-        // 2. Procesar pedido desde el formulario
-        @SuppressWarnings("unchecked")
-        List<Producto> carrito = (List<Producto>) sesion.getAttribute("carritoJSON");
-        if (carrito == null || carrito.isEmpty()) {
-            request.setAttribute("error", "El carrito está vacío.");
-            forwardTo(response, request, "compra.jsp");
+        // Validar carrito no vacío
+        if (carrito.isEmpty()) {
+            session.setAttribute("mensaje", "Tu carrito está vacío.");
+            response.sendRedirect("compra.jsp");
             return;
         }
 
-        Integer codigoUsuario = (Integer) sesion.getAttribute("codigoUsuario");
-        if (codigoUsuario == null || codigoUsuario == 0) {
-            request.setAttribute("error", "Debes iniciar sesión para continuar.");
-            forwardTo(response, request, "loginUsuario.jsp?url=compra.jsp");
-            return;
-        }
-
-        // Llamamos a guardarPedido con estado = 1 (nuevo pedido)
-        ArrayList<Producto> carritoCOP = new ArrayList<>(carrito);
-        boolean exito = con.guardarPedido(codigoUsuario, carritoCOP, 1);
-            System.out.println(">>> ProcesarPedido.doPost INVOKED <<<");
-
+        // Guardar pedido en BD con estado = 0 (pendiente)
+        boolean exito = AccesoBD.getInstance().guardarPedido(codigoUsuario, new ArrayList<>(carrito), 0);
         if (exito) {
-            sesion.removeAttribute("carritoJSON");
+            session.removeAttribute("carritoJSON");
             response.sendRedirect("gracias.jsp");
         } else {
-            request.setAttribute("error", "Error al procesar el pedido. Inténtalo de nuevo.");
-            forwardTo(response, request, "compra.jsp");
+            session.setAttribute("mensaje", "Error al procesar tu pedido. Intenta de nuevo.");
+            response.sendRedirect("compra.jsp");
         }
     }
-
-    private void forwardTo(HttpServletResponse resp, HttpServletRequest req, String jsp)
-            throws ServletException, IOException {
-        RequestDispatcher rd = req.getRequestDispatcher(jsp);
-        rd.forward(req, resp);
-    }
 }
+

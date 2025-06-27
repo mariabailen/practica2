@@ -39,27 +39,27 @@
 
         <h4>Datos de Envío</h4>
         <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre completo:</label>
+            <label form="nombre" class="form-label">Nombre completo:</label>
             <input type="text" class="form-control" name="nombre" value="<%= nombre %>" required />
         </div>
         <div class="mb-3">
-            <label for="domicilio" class="form-label">Domicilio:</label>
+            <label form="domicilio" class="form-label">Domicilio:</label>
             <input type="text" class="form-control" name="domicilio" value="<%= domicilio %>" required />
         </div>
         <div class="mb-3">
-            <label for="cp" class="form-label">Código Postal:</label>
+            <label form="cp" class="form-label">Código Postal:</label>
             <input type="text" class="form-control" name="cp" value="<%= cp %>" required />
         </div>
         <div class="mb-3">
-            <label for="poblacion" class="form-label">Población:</label>
+            <label form="poblacion" class="form-label">Población:</label>
             <input type="text" class="form-control" name="poblacion" value="<%= poblacion %>" required />
         </div>
         <div class="mb-3">
-            <label for="provincia" class="form-label">Provincia:</label>
+            <label form="provincia" class="form-label">Provincia:</label>
             <input type="text" class="form-control" name="provincia" value="<%= provincia %>" required />
         </div>
         <div class="mb-3">
-            <label for="telefono" class="form-label">Teléfono:</label>
+            <label form="telefono" class="form-label">Teléfono:</label>
             <input type="text" class="form-control" name="telefono" value="<%= telefono %>" required />
         </div>
 
