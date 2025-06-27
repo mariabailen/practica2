@@ -1,4 +1,6 @@
+tienda/ModificarClave.class
 tienda/Logout.class
+tienda/Detalle.class
 tienda/Usuario.class
 tienda/PedidosServlet.class
 tienda/ProfileServlet.class
@@ -9,3 +11,4 @@ tienda/Registro.class
 tienda/ProcesarPedido.class
 tienda/Producto.class
 tienda/Pedido.class
+tienda/CancelarPedido.class

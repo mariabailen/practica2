@@ -294,7 +294,7 @@ public List<Pedido> obtenerPedidosUsuario(int codigoUsuario) {
 public boolean cancelarPedido(int codigoPedido) {
     abrirConexionBD();
     boolean exito = false;
-    String sql = "UPDATE pedidos SET estado = 4 WHERE codigo = ? AND estado = 1";  // 4 = Cancelado, 1 = Pendiente
+    String sql = "UPDATE pedidos SET estado = 4 WHERE codigo = ? AND estado = 3";  // 4 = Cancelado, 1 = Pendiente
 
     try (PreparedStatement ps = conexionBD.prepareStatement(sql)) {
         ps.setInt(1, codigoPedido);

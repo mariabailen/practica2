@@ -112,3 +112,46 @@ body {
     max-height: 180px; /* Reducido para mejor proporción */
     object-fit: contain;
 }
+/* Contenedor de la tabla con sombra y bordes redondeados */
+.pedidos-table-container {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+/* Espaciado y altura de filas */
+.pedidos-table tbody tr {
+  height: 60px;
+}
+
+.pedidos-table th {
+  background-color: #343a40;
+  color: #fff;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.pedidos-table td {
+  vertical-align: middle;
+  text-align: center;
+  padding: 1.2rem;
+}
+
+/* Badges de estado */
+.pedidos-table .badge {
+  font-size: 0.9rem;
+}
+
+/* Estilos para la sección de detalles */
+.detalles-container {
+  padding: 0.5rem 1rem;
+}
+
+.detalles-table th {
+  background-color: #e9ecef;
+}
+
+.detalles-table td {
+  padding: 0.75rem;
+}
+

@@ -54,7 +54,7 @@
             <div class="d-flex justify-content-between">
                 <button type="submit" class="btn btn-primary">Guardar cambios</button>
                 <button type="button" class="btn btn-secondary" onclick="window.history.back()">Cancelar</button>
-                <a href="${pageContext.request.contextPath}/pedidos" class="btn btn-info">Ver pedidos</a>
+                <a href="pedidos" class="btn btn-info">Ver pedidos</a>
             </div>
         </form>
         

@@ -22,7 +22,7 @@ public class Pedido {
         switch (estado) {
             case 1: return "Enviado";
             case 2: return "Entregado";
-            case 3: return "En preparación";
+            case 3: return "Pendiente";
             case 4: return "Cancelado";
             default: return "Desconocido";
         }
