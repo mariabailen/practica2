@@ -57,7 +57,7 @@ public class ProcesarPedido extends HttpServlet {
         }
 
         // Guardar pedido en BD con estado = 0 (pendiente)
-        boolean exito = AccesoBD.getInstance().guardarPedido(codigoUsuario, new ArrayList<>(carrito), 0);
+        boolean exito = AccesoBD.getInstance().guardarPedido(codigoUsuario, new ArrayList<>(carrito), 3);
         if (exito) {
             session.removeAttribute("carritoJSON");
             response.sendRedirect("gracias.jsp");
