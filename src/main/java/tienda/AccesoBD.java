@@ -227,6 +227,19 @@ public boolean guardarPedido(int codigoUsuario, ArrayList<Producto> carrito, int
         }
         psDetalle.executeBatch();
         psDetalle.close();
+        // 5) Actualizar existencias de productos tras el pedido
+String sqlUpdateStock = 
+    "UPDATE productos SET existencias = existencias - ? WHERE codigo = ?";
+try (PreparedStatement psUpdateStock = conexionBD.prepareStatement(sqlUpdateStock)) {
+    for (Producto pstock : carrito) {
+        psUpdateStock.setInt(1, pstock.getCantidad());
+        psUpdateStock.setInt(2, pstock.getCodigo());
+        psUpdateStock.addBatch();
+    }
+    psUpdateStock.executeBatch();
+}
+
+        
 
         conexionBD.commit(); // Confirmar transacción
         exito = true;
