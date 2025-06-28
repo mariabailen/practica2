@@ -15,10 +15,42 @@
     <meta charset="UTF-8">
     <title>Mis Pedidos</title>
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/bootstrap.min.css" integrity="sha384-9aIt2nRpC6IzVButxZRooFJgHxcFjBQmWWL5Q8PTCyk6iVP+2YH1l96W+LOI/PFG" crossorigin="anonymous">
     <script src="./js/bootstrap.bundle.min.js" integrity="sha384-9aIt2nRpC6IzVButxZRooFJgHxcFjBQmWWL5Q8PTCyk6iVP+2YH1l96W+LOI/PFG" crossorigin="anonymous"></script>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.jsp">MAKE UP WAPA</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.jsp">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="empresa.jsp">Empresa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contacto.jsp">Contacto</a></li>
+                    <li class="nav-item"><a class="nav-link" href="productos.jsp">Productos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="carrito.jsp">Carrito</a></li>
+                    <li class="nav-item"><a class="nav-link" href="administracion.jsp">Administración</a></li>
+                    <li class="nav-item"><a class="nav-link" href="logout.jsp">Cerrar Sesión</a></li>
+                    <% String nombreUsuario = (String) session.getAttribute("usuario");
+                       if (nombreUsuario != null) { %>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-outline-light ms-2 text-white" href="perfil">
+                                Hola, <%= nombreUsuario %>
+                            </a>
+                        </li>
+                    <% } else { %>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="loginUsuario.jsp">Login</a>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <header class="bg-primary text-white p-4 text-center">
         <menu-web></menu-web>
     </header>
